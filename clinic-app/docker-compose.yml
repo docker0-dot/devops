@@ -1,26 +1,30 @@
-version: "3.9"
+version: '3.8'
 
 services:
   web:
     build: .
+    container_name: clinic_web
     ports:
       - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:96wo784W@db:5432/clinic
     volumes:
       - .:/app
-    env_file: .env
     depends_on:
       - db
-    restart: always
 
   db:
     image: postgres:16
+    container_name: clinic_db
+    restart: always
     environment:
+      POSTGRES_DB: clinic
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 96wo784W
-      POSTGRES_DB: clinic
     volumes:
-      - pgdata:/var/lib/postgresql/data
-    restart: always
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
 volumes:
-  pgdata:
+  postgres_data:
