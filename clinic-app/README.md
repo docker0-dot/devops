@@ -4,11 +4,11 @@
 
 ## 🚀 Как запустить
   -- bash
-  git clone https://github.com/your-name/clinic-app.git
-  cd clinic-app
-  docker-compose up --build
+    git clone https://github.com/your-name/clinic-app.git
+    cd clinic-app
+    docker-compose up --build
   -- После запуска приложение будет доступно по адресу:
-  http://localhost:5000
+    http://localhost:5000
 
 ## 📦 Состав
   * Flask API
