@@ -4,9 +4,9 @@ from .models import Patient
 main = Blueprint('main', __name__)
 
 @main.route('/')
-def index():
-    return jsonify({"message": "Привет из клиники!"})
+def home():
+    return {'message': 'Добро пожаловать в Clinic API!'}
 
-@main.route('/patients')
-def get_patients():
-    return jsonify([{"id": p.id, "name": p.name} for p in Patient.query.all()])
+@main.route('/check')
+def check():
+    return jsonify([p.first_name for p in Patient.query.limit(5).all()])
