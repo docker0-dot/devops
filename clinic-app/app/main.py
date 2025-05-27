@@ -1,6 +1,8 @@
 from flask import Flask
 import os
 import psycopg2
+from app import db
+from app.models import Patient
 
 app = Flask(__name__)
 
@@ -20,3 +22,7 @@ def hello():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
+new_patient = Patient(name="CI/CD Test", age=99)
+db.session.add(new_patient)
+db.session.commit()
