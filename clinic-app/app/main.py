@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
 from datetime import datetime
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
 # Подключение к базе данных
 def get_db_connection():
