@@ -1,1 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Запись на приём</title>
+</head>
+<body>
+    <h1>Запись на приём</h1>
+    <form method="post">
+        <label for="patient_id">ID Пациента:</label>
+        <input type="number" name="patient_id" required><br><br>
+
+        <label for="doctor_id">ID Врача:</label>
+        <input type="number" name="doctor_id" required><br><br>
+
+        <label for="date">Дата приёма:</label>
+        <input type="date" name="date" required><br><br>
+
+        <button type="submit">Записаться</button>
+    </form>
+
+    <p><a href="/doctors">Назад к списку врачей</a></p>
+</body>
+</html>
 
