@@ -1,1 +1,27 @@
-
+<!-- templates/appointments.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список записей</title>
+</head>
+<body>
+    <h1>Список записей</h1>
+    <table border="1">
+        <tr>
+            <th>Пациент</th>
+            <th>Врач</th>
+            <th>Дата приёма</th>
+            <th>Статус</th>
+        </tr>
+        {% for record in appointments %}
+            <tr>
+                <td>{{ record.patient_name }}</td>
+                <td>{{ record.doctor_name }}</td>
+                <td>{{ record.appointment_date }}</td>
+                <td>{{ record.status }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
