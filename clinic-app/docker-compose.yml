@@ -1,30 +1,26 @@
-version: '3.8'
+version: '3.9'
 
 services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 96wo784W
+      POSTGRES_DB: clinic
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
   web:
-    build: .
-    container_name: clinic_web
+    build: ./app
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=postgresql://postgres:96wo784W@db:5432/clinic
-    volumes:
-      - .:/app
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: 96wo784W
+      DB_NAME: clinic
     depends_on:
       - db
-
-  db:
-    image: postgres:16
-    container_name: clinic_db
-    restart: always
-    environment:
-      POSTGRES_DB: clinic
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 96wo784W
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
-volumes:
-  postgres_data:
