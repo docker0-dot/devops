@@ -1,28 +1,90 @@
-from flask import Flask
-import os
+from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
-from app import db
-from app.models import Patient
+from datetime import datetime
 
 app = Flask(__name__)
 
-@app.route('/')
-def hello():
-    try:
-        conn = psycopg2.connect(
-            dbname=os.getenv('clinic'),
-            user=os.getenv('postgres'),
-            password=os.getenv('96wo784W'),
-            host=os.getenv('127.0.0.1'),
-            port=os.getenv('5432')
-        )
-        return "Connected to the database!"
-    except Exception as e:
-        return f"Error: {str(e)}"
+# Подключение к базе данных
+def get_db_connection():
+    return psycopg2.connect(
+        dbname='clinic',
+        user='postgres',
+        password='96wo784W',
+        host='localhost',
+        port='5432'
+    )
+
+# 📄 Страница со списком врачей
+@app.route('/doctors')
+def doctors():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT doctor_id, first_name, last_name, specialty FROM doctors')
+    doctors = [dict(doctor_id=row[0], first_name=row[1], last_name=row[2], specialty=row[3]) for row in cur.fetchall()]
+    cur.close()
+    conn.close()
+    return render_template('doctors.html', doctors=doctors)
+
+# 📝 Форма записи на приём
+@app.route('/appointment', methods=['GET', 'POST'])
+def appointment():
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Получение списка пациентов и врачей
+    cur.execute('SELECT patient_id, first_name, last_name FROM patients')
+    patients = [dict(patient_id=r[0], first_name=r[1], last_name=r[2]) for r in cur.fetchall()]
+
+    cur.execute('SELECT doctor_id, first_name, last_name, specialty FROM doctors')
+    doctors = [dict(doctor_id=r[0], first_name=r[1], last_name=r[2], specialty=r[3]) for r in cur.fetchall()]
+
+    success = False
+
+    if request.method == 'POST':
+        patient_id = request.form['patient_id']
+        doctor_id = request.form['doctor_id']
+        appointment_date = request.form['appointment_date']
+        now = datetime.now()
+
+        # 1. Создать запись в таблице appointments
+        cur.execute("""
+            INSERT INTO appointments (patient_id, doctor_id, appointment_date, status, created_at)
+            VALUES (%s, %s, %s, %s, %s) RETURNING appointment_id
+        """, (patient_id, doctor_id, appointment_date, 'Запланировано', now))
+        appointment_id = cur.fetchone()[0]
+
+        # 2. Создать запись в patientappointments
+        cur.execute("""
+            INSERT INTO patientappointments (patient_id, doctor_id, appointment_id, booking_date, status)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (patient_id, doctor_id, appointment_id, now, 'Активна'))
+
+        conn.commit()
+        success = True
+
+    cur.close()
+    conn.close()
+    return render_template('appointment_form.html', patients=patients, doctors=doctors, success=success)
+
+# 📃 Список всех записей
+@app.route('/appointments')
+def appointment_list():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT p.first_name || ' ' || p.last_name AS patient_name,
+               d.first_name || ' ' || d.last_name AS doctor_name,
+               a.appointment_date,
+               a.status
+        FROM appointments a
+        JOIN patients p ON a.patient_id = p.patient_id
+        JOIN doctors d ON a.doctor_id = d.doctor_id
+        ORDER BY a.appointment_date DESC
+    """)
+    appointments = [dict(patient_name=r[0], doctor_name=r[1], appointment_date=r[2], status=r[3]) for r in cur.fetchall()]
+    cur.close()
+    conn.close()
+    return render_template('appointments.html', appointments=appointments)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-
-new_patient = Patient(name="CI/CD Test", age=99)
-db.session.add(new_patient)
-db.session.commit()
+    app.run(debug=True)
