@@ -17,7 +17,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      DB_HOST: 192.168.43.204
+      DB_HOST: 192.168.0.103
       DB_PORT: 5432
       DB_USER: postgres
       DB_PASSWORD: 96wo784W
