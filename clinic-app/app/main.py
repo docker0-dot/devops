@@ -1,8 +1,18 @@
 from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
 from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 app = Flask(__name__, template_folder='templates')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://user:password@db:5432/clinic_db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+from app import models, routes
 
 # Подключение к базе данных
 def get_db_connection():
