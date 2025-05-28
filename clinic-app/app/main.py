@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 
 app = Flask(__name__, template_folder='templates')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:96wo784W@192.168.0.103:5432/clinic')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:96wo784W@db:5432/clinic')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -21,7 +21,7 @@ def get_db_connection():
         dbname='clinic',
         user='postgres',
         password='96wo784W',
-        host='192.168.0.103',
+        host='db',
         port='5432'
     )
 
