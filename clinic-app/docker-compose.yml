@@ -23,10 +23,11 @@ services:
       DB_PASSWORD: 96wo784W
       DB_NAME: clinic
       DATABASE_URL: postgresql://postgres:96wo784W@db:5432/clinic
+      FLASK_APP: app.main
+      FLASK_ENV: development
     depends_on:
       - db
     working_dir: /app
-    command: python main.py
+    command: flask run --host=0.0.0.0
     volumes:
       - ./app:/app
-
