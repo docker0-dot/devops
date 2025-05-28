@@ -22,6 +22,7 @@ services:
       DB_USER: postgres
       DB_PASSWORD: 96wo784W
       DB_NAME: clinic
+      DATABASE_URL: postgresql://postgres:96wo784W@db:5432/clinic
     depends_on:
       - db
     working_dir: /app
