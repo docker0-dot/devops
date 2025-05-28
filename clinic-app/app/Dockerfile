@@ -8,6 +8,6 @@ COPY . .
 
 # Скрипт для запуска миграций и приложения
 COPY entrypoint.sh .
-RUN chmod +x /app/entrypoint.sh
+RUN chmod +x app/entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
