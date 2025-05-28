@@ -1,14 +1,18 @@
 #!/bin/sh
 # entrypoint.sh
 
-# Устанавливаем переменную FLASK_APP для миграций
+# Устанавливаем переменные окружения
 export FLASK_APP=app.main
-
 export FLASK_RUN_HOST=0.0.0.0
+
+# Если нет каталога migrations, инициализируем его
+if [ ! -d "migrations" ]; then
+    flask db init
+fi
+
 # Выполняем миграции
+flask db migrate -m "Initial migration"
 flask db upgrade
+
+# Запускаем Flask
 flask run
-
-# Запускаем приложение
-exec python app/main.py
-
