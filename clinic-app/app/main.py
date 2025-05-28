@@ -21,7 +21,7 @@ def get_db_connection():
         dbname='clinic',
         user='postgres',
         password='96wo784W',
-        host='db',
+        host='192.168.0.103',
         port='5432'
     )
 
