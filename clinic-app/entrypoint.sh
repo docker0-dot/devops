@@ -2,7 +2,7 @@
 # entrypoint.sh
 
 # Устанавливаем переменные окружения
-export FLASK_APP=app.main
+export FLASK_APP=main
 export FLASK_RUN_HOST=0.0.0.0
 
 # Если нет каталога migrations, инициализируем его
