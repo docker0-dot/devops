@@ -1,8 +1,11 @@
-#!/bin/bash
+#!/bin/sh
+# entrypoint.sh
 
-# Применяем миграции
+# Устанавливаем переменную FLASK_APP для миграций
+export FLASK_APP=main.py
+
+# Выполняем миграции
 flask db upgrade
 
 # Запускаем приложение
-exec gunicorn --bind 0.0.0.0:5000 app:app
 exec python main.py
