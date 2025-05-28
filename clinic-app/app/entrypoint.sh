@@ -5,3 +5,4 @@ flask db upgrade
 
 # Запускаем приложение
 exec gunicorn --bind 0.0.0.0:5000 app:app
+exec python main.py
