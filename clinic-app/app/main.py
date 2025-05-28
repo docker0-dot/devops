@@ -13,7 +13,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from app import models, routes
+import models
+import routes
 
 # Подключение к базе данных
 def get_db_connection():
