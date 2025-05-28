@@ -11,6 +11,3 @@ COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
-
-WORKDIR /app/app
-CMD ["python", "main.py"]
