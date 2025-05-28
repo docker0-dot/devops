@@ -14,7 +14,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 import models
-import routes
 
 # Подключение к базе данных
 def get_db_connection():
