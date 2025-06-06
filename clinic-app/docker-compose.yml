@@ -22,7 +22,7 @@ services:
       DB_USER: postgres
       DB_PASSWORD: 96wo784W
       DB_NAME: clinic
-      DATABASE_URL: postgresql://postgres:96wo784W@192.168.43.204:5432/clinic
+      DATABASE_URL: postgresql://postgres:96wo784W@192.168.0.104:5432/clinic
       FLASK_ENV: development
     depends_on:
       - db
