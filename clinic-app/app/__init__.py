@@ -6,11 +6,11 @@ def create_app():
     app = Flask(__name__, template_folder='templates')
     
     # Конфигурация
-    username = quote_plus('postgres')
-    password = quote_plus('96wo784W')
-    host = quote_plus('192.168.1.178')
-    dbname = quote_plus('clinic')
-    
+    username = 'postgres'
+    password = '96wo784W'
+    host = '192.168.43.204'
+    dbname = 'clinic'
+
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{username}:{password}@{host}:5432/{dbname}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
