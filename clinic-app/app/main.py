@@ -1,32 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 import psycopg2
-import os
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from datetime import datetime
+from urllib.parse import quote_plus
 
-app = Flask(__name__, template_folder='templates')
-
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:96wo784W@192.168.43.204:5432/clinic')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
-import models
-
-# Подключение к базе данных
-def get_db_connection():
-    return psycopg2.connect(
-        dbname='clinic',
-        user='postgres',
-        password='96wo784W',
-        host='192.168.43.204',
-        port='5432'
-    )
+# Создаем Blueprint вместо использования app напрямую
+bp = Blueprint('main', __name__)
 
 # 📄 Страница со списком врачей
-@app.route('/doctors')
+@bp.route('/doctors')
 def doctors():
     conn = get_db_connection()
     cur = conn.cursor()
@@ -37,7 +19,7 @@ def doctors():
     return render_template('doctors.html', doctors=doctors)
 
 # 📝 Форма записи на приём
-@app.route('/appointment', methods=['GET', 'POST'])
+@bp.route('/appointment', methods=['GET', 'POST'])
 def appointment():
     conn = get_db_connection()
     cur = conn.cursor()
@@ -78,7 +60,7 @@ def appointment():
     return render_template('appointment_form.html', patients=patients, doctors=doctors, success=success)
 
 # 📃 Список всех записей
-@app.route('/appointments')
+@bp.route('/appointments')
 def appointment_list():
     conn = get_db_connection()
     cur = conn.cursor()
@@ -96,6 +78,3 @@ def appointment_list():
     cur.close()
     conn.close()
     return render_template('appointments.html', appointments=appointments)
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)

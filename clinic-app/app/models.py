@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
 from datetime import datetime
-from main import db
+from .extensions import db
 
 # 🧑‍⚕️ Врачи
 class Doctor(db.Model):
@@ -13,6 +13,7 @@ class Doctor(db.Model):
     specialty = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(20))
     email = db.Column(db.String(100))
+    age = db.Column(db.Integer)   #add pole
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 # 🧍 Пациенты
