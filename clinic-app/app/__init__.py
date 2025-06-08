@@ -11,7 +11,7 @@ def create_app():
     host = quote_plus('192.168.1.178')
     dbname = quote_plus('clinic')
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{username}:{password}@{host}:5432/{dbname}?client_encoding=utf8'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{username}:{password}@{host}:5432/{dbname}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     # Инициализация расширений
