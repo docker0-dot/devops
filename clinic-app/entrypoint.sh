@@ -15,4 +15,4 @@ fi
 flask db upgrade
 
 # Запускаем Flask
-flask run
+exec flask run
