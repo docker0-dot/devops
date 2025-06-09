@@ -2,7 +2,7 @@
 # entrypoint.sh
 
 # Устанавливаем переменные окружения
-export FLASK_APP=run.py:create_app
+export FLASK_APP=run.py
 export FLASK_RUN_HOST=0.0.0.0
 
 # Если нет каталога migrations, инициализируем его
