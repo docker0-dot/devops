@@ -27,6 +27,6 @@ services:
     depends_on:
       - db
     working_dir: /app
-    command: python main.py
+    command: flask run --host=0.0.0.0
     volumes:
       - ./app:/app
