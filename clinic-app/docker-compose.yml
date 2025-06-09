@@ -27,4 +27,4 @@ services:
     depends_on:
       - db
     working_dir: /app
-    command: flask run --host=0.0.0.0
+    entrypoint: ./entrypoint.sh
