@@ -8,7 +8,7 @@ def create_app():
     # Конфигурация
     username = 'postgres'
     password = '96wo784W'
-    host = '192.168.0.100'
+    host = '192.168.0.101'
     dbname = 'clinic'
 
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{username}:{password}@{host}:5432/{dbname}'
