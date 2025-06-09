@@ -8,10 +8,10 @@ export FLASK_RUN_HOST=0.0.0.0
 # Если нет каталога migrations, инициализируем его
 if [ ! -d "migrations" ]; then
     flask db init
+    flask db migrate -m "Initial migration"
 fi
 
 # Выполняем миграции
-flask db migrate -m "Initial migration"
 flask db upgrade
 
 # Запускаем Flask
